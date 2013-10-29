@@ -1,0 +1,40 @@
+#!/bin/bash
+
+source $GIT_DIR/hooks/functions
+
+function out {
+	if [ $1 -eq 1 ]; then
+		echo
+		err 'Abortig commit.'
+		exit 1
+	fi
+}
+
+# Get list of new/modified manifest and template files to check (in git index)
+for file in `git diff-index --diff-filter=ACM --name-only --cached HEAD`
+	do
+	# Don't check empty files
+	if [ `git cat-file -s :0:$file` -gt 0 ]; then
+		case $file in
+			*.pp )
+				text "### Check Puppet Style: $file ###"
+				puppet-lint $file
+				check_return_value $?
+				out $?
+
+				text "### Check Puppet Syntax: $file ###"
+				puppet parser validate --render-as s $file
+				check_return_value $?
+				out $?
+			;;
+			*.erb )
+				text "### Check ERB Syntax: $file ###"
+				git cat-file blob :0:$file | erb -x -T - | ruby -c
+				check_return_value $?
+				out $?
+			;;
+			* )
+			;;
+		esac
+	fi
+done

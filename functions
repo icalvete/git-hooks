@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function err {
+	echo "$(tput setaf 1)${1}$(tput sgr0)"
+}
+
+function warn {
+	echo "$(tput setaf 3)${1}$(tput sgr0)"
+}
+
+function ok {
+	echo "$(tput setaf 2)${1}$(tput sgr0)"
+}
+
+function strong {
+	echo "$(tput bold)${1}$(tput sgr0)"
+}
+
+function text {
+	echo "$(tput setaf 6)${1}$(tput sgr0)"
+}
+
+function check_return_value {
+	case $1 in
+		0)
+			ok 'Check passed.'
+		;;
+		1)
+			err 'Critical error.'
+			return 1
+		;;
+		*)
+		;;
+	esac
+}

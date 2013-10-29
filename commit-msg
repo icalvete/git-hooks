@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source $GIT_DIR/hooks/functions
+
+msg=`cat $1`
+echo $msg | grep -e "IssueID #[0-9]\+ \?"
+
+if [ $? -eq 1 ]; then
+	echo
+	echo  'Commit message is not formatted correctly (missing IssueID #XXXX)'
+	echo
+	err 'Abortig commit.'
+	exit 1
+fi
