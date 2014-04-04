@@ -16,10 +16,12 @@ Git-hooks
 
 ##Installation
 
-1. https://github.com/icalvete/git-hooks.git
-2. cd git-hooks
-3. chmod 755 *
-4. cp -a * &lt;git_repo&gt;/.git/hooks
+```bash
+ubuntu@yoda:~$ git clone https://github.com/icalvete/git-hooks.git
+ubuntu@yoda:~$ cd git-hooks
+ubuntu@yoda:~$ chmod 755 *
+ubuntu@yoda:~$ cp -a * &lt;git_repo&gt;/.git/hooks
+```
 
 ##Authors:
 
